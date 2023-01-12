@@ -9,6 +9,7 @@ let blackOpponent = false;
 let spectators = [];
 wss.on('connection', (ws) => {
 	console.log('Client connected');
+	console.log(ws._socket.remoteAddress);
 	if (!whiteOpponent) {
 		whiteOpponent = ws;
 		ws.send(Buffer.from('WHITE', 'utf-8'));

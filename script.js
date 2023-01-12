@@ -69,7 +69,7 @@ function drawBoard() {
 let firstMove = true;
 let blackCastle = [true, true];
 let whiteCastle = [true, true];
-let turn = 'black';
+let turn = 'white';
 let blackTime = 600;
 let whiteTime = 600;
 let selectedx = -1;
@@ -384,34 +384,34 @@ function move(x, y) {
 }
 function moveFromServer(fromx, fromy, x, y) {
 	console.log('movefromserver worked');
-	if (enPassantx == x && enPassanty == y) {
+	/*if (enPassantx == x && enPassanty == y) {
 		var audio = new Audio('sounds/capture.mp3');
 		audio.play();
 		ctx.fillStyle = 'red';
 		ctx.fillRect(enPassanty * SQUARE_SIZE, enPassantx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 	} else {
-		if (firstMove) {
-			var audio = new Audio('sounds/game-start.mp3');
-			audio.play();
-			firstMove = false;
-			myInterval = setInterval(timer, 1000);
-		} else {
-			if (board[x][y] != '') {
-				if (board[x][y].charAt(1) == 'k') {
-					var audio = new Audio('sounds/game-end.mp3');
-					audio.play();
-					gameOver();
-					return;
-				}
-				var audio = new Audio('sounds/capture.mp3');
+		
+	}*/
+	if (firstMove) {
+		var audio = new Audio('sounds/game-start.mp3');
+		audio.play();
+		firstMove = false;
+		myInterval = setInterval(timer, 1000);
+	} else {
+		if (board[x][y] != '') {
+			if (board[x][y].charAt(1) == 'k') {
+				var audio = new Audio('sounds/game-end.mp3');
 				audio.play();
-			} else {
-				var audio = new Audio('sounds/move.mp3');
-				audio.play();
+				gameOver();
+				return;
 			}
+			var audio = new Audio('sounds/capture.mp3');
+			audio.play();
+		} else {
+			var audio = new Audio('sounds/move.mp3');
+			audio.play();
 		}
 	}
-
 	if (turn == 'white') {
 		turn = 'black';
 	} else {
@@ -441,6 +441,12 @@ function timer() {
 			Math.floor(whiteTime / 60) +
 			':' +
 			(whiteTime % 60 < 10 ? '0' + (whiteTime % 60) : whiteTime % 60);
+		if (whiteTime == 0) {
+			var audio = new Audio('sounds/game-end.mp3');
+			audio.play();
+			turn = 'black';
+			gameOver();
+		}
 	} else {
 		blackTime--;
 		blackTimerText.innerHTML =
@@ -448,6 +454,12 @@ function timer() {
 			Math.floor(blackTime / 60) +
 			':' +
 			(blackTime % 60 < 10 ? '0' + (blackTime % 60) : blackTime % 60);
+		if (blackTime == 0) {
+			var audio = new Audio('sounds/game-end.mp3');
+			audio.play();
+			turn = 'white';
+			gameOver();
+		}
 	}
 }
 function rookMove() {
