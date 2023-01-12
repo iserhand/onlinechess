@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+    <canvas id="board" width="600" height="600"></canvas>
+    <canvas id="canvas" width="600" height="600" ></canvas>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h1>Game Over</h1>
+          <a id="winnerText"></a>
+        </div>
+      </div>
+    
+    <div class="chatBox">
+      <a  class="whiteTimeText" id="whiteTimer">White's Time=10:00</a>
+    <a  class="blackTimeText" id="blackTimer">Black's Time=10:00</a>
+      <a id="userType"></a>
+      <pre id="messages"></pre>
+      <div class="messageInput">
+        <input id="messageIn" type="text" placeholder="Type your message here">
+        <button id="send" title="Send message">Send</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="serverhandler.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+#canvas {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: 1px solid black;
+    z-index: 1;
+}
+#board{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: 1px solid black;
+    z-index: 0;
+}
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4);
+}
+
+
+.modal-content {
+    align-items: center;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%; 
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+body{
+    margin: 0;
+    overflow: hidden
+}
+
+
+.chatBox{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 75%;
+    top: 20%;
+    width: 20%;
+    height: 50%;
+}
+.messageInput{
+    display: flex;
+    width: 100%;
+    border: 1px solid green;
+}
+input {
+    width: 98%;
+}
+#messages{
+    display: flex;
+    flex: 1;
+    text-align: left;
+    border: 1px solid blue;
+    margin: 0;
+}
+#userType{
+    text-align: center;
+    font-size: x-large;
+}
+ul {
+    padding-left: 10pt;
+    align-items: flex-start;
+    text-align: left;
+    list-style-type: none;
+}
