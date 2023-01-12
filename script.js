@@ -288,15 +288,15 @@ function calculateAvilableMoves() {
 					}
 				}
 				//Can take?
-				if (board[selectedx + 1][selectedy - 1]?.charAt(0) == 'w') {
-					var availableMove = [selectedx + 1, selectedy - 1];
+				if (board[selectedx - 1][selectedy - 1]?.charAt(0) == 'w') {
+					var availableMove = [selectedx - 1, selectedy - 1];
 					availableMoves.push(availableMove);
-					legalMoves[selectedx + 1][selectedy - 1] = true;
+					legalMoves[selectedx - 1][selectedy - 1] = true;
 				}
-				if (board[selectedx + 1][selectedy + 1]?.charAt(0) == 'w') {
-					var availableMove = [selectedx + 1, selectedy + 1];
+				if (board[selectedx - 1][selectedy + 1]?.charAt(0) == 'w') {
+					var availableMove = [selectedx - 1, selectedy + 1];
 					availableMoves.push(availableMove);
-					legalMoves[selectedx + 1][selectedy + 1] = true;
+					legalMoves[selectedx - 1][selectedy + 1] = true;
 				}
 				if (enPassantx == selectedx + 1 && enPassanty == selectedy - 1) {
 					var availableMove = [selectedx + 1, selectedy - 1];
@@ -341,6 +341,49 @@ function calculateAvilableMoves() {
 	}
 }
 function move(x, y) {
+	ws.send('mov' + ',' + turn.charAt(0) + ',' + selectedx + ',' + selectedy + ',' + x + ',' + y);
+	if (enPassantx == x && enPassanty == y) {
+		var audio = new Audio('sounds/capture.mp3');
+		audio.play();
+		ctx.fillStyle = 'red';
+		ctx.fillRect(enPassanty * SQUARE_SIZE, enPassantx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+	} else {
+		if (firstMove) {
+			var audio = new Audio('sounds/game-start.mp3');
+			audio.play();
+			firstMove = false;
+			myInterval = setInterval(timer, 1000);
+		} else {
+			if (board[x][y] != '') {
+				if (board[x][y].charAt(1) == 'k') {
+					var audio = new Audio('sounds/game-end.mp3');
+					audio.play();
+					gameOver();
+					return;
+				}
+				var audio = new Audio('sounds/capture.mp3');
+				audio.play();
+			} else {
+				var audio = new Audio('sounds/move.mp3');
+				audio.play();
+			}
+		}
+	}
+
+	if (turn == 'white') {
+		turn = 'black';
+	} else {
+		turn = 'white';
+	}
+	board[x][y] = board[selectedx][selectedy];
+	board[selectedx][selectedy] = '';
+
+	drawsquare(x, y);
+	drawsquare(selectedx, selectedy);
+	clearHighlights();
+}
+function moveFromServer(fromx, fromy, x, y) {
+	console.log('movefromserver worked');
 	if (enPassantx == x && enPassanty == y) {
 		var audio = new Audio('sounds/capture.mp3');
 		audio.play();
@@ -375,12 +418,10 @@ function move(x, y) {
 		turn = 'white';
 	}
 
-	board[x][y] = board[selectedx][selectedy];
-	board[selectedx][selectedy] = '';
-
-	audio.play();
+	board[x][y] = board[fromx][fromy];
+	board[fromx][fromy] = '';
 	drawsquare(x, y);
-	drawsquare(selectedx, selectedy);
+	drawsquare(fromx, fromy);
 	clearHighlights();
 }
 function drawsquare(x, y) {

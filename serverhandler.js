@@ -25,9 +25,18 @@ ws.addEventListener('message', (ev) => {
 			userType.textContent = 'You are spectator';
 			userTypeString = 's';
 			drawBoard();
-		} else if (text.split(':')[1].startsWith('msg')) {
+		} else if (text.split(':')[1]?.startsWith('msg')) {
 			text = text.split(':')[0] + ':' + text.split(':')[1].slice(3);
 			showMessage(text);
+		} else if (text.split(',')[0]?.startsWith('mov')) {
+			let splittedTextFromServer = text.split(',');
+			moveFromServer(
+				splittedTextFromServer[1],
+				splittedTextFromServer[2],
+				splittedTextFromServer[3],
+				splittedTextFromServer[4]
+			);
+			console.log(text);
 		} else {
 			console.log(text);
 		}

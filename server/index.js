@@ -51,6 +51,58 @@ wss.on('connection', (ws) => {
 				}
 			});
 		} else if (data.startsWith('mov')) {
+			//Movement message
+			let splitMsg = data.split(',');
+			wss.clients.forEach(function each(client) {
+				if (client != ws && client.readyState == WebSocket.OPEN) {
+					if (blackOpponent == client) {
+						//Send move reversed
+						client.send(
+							Buffer.from(
+								`mov,${(7 - parseInt(splitMsg[2])).toString()},${(
+									7 - parseInt(splitMsg[3])
+								).toString()},${(7 - parseInt(splitMsg[4])).toString()},${(
+									7 - parseInt(splitMsg[5])
+								).toString()}`,
+								'utf-8'
+							)
+						);
+						console.log(
+							'Sent',
+							`mov,${(7 - parseInt(splitMsg[2])).toString()},${(
+								7 - parseInt(splitMsg[3])
+							).toString()},${(7 - parseInt(splitMsg[4])).toString()},${(
+								7 - parseInt(splitMsg[5])
+							).toString()}`,
+							'utf-8'
+						);
+					} else {
+						if (splitMsg[1] === 'b') {
+							//Black's move so reverse the move
+							console.log('black moved');
+							client.send(
+								Buffer.from(
+									`mov,${(7 - parseInt(splitMsg[2])).toString()},${(
+										7 - parseInt(splitMsg[3])
+									).toString()},${(7 - parseInt(splitMsg[4])).toString()},${(
+										7 - parseInt(splitMsg[5])
+									).toString()}`,
+									'utf-8'
+								)
+							);
+						} else {
+							//Send move directly(white move)
+							console.log('white moved');
+							client.send(
+								Buffer.from(
+									`mov,${splitMsg[2]},${splitMsg[3]},${splitMsg[4]},${splitMsg[5]}`,
+									'utf-8'
+								)
+							);
+						}
+					}
+				}
+			});
 		}
 	});
 
